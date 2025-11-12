@@ -9,4 +9,5 @@ export interface Pose {
   category?: string;
   target?: string;
   steps?: string;
+  youtube_link?: string;
 }

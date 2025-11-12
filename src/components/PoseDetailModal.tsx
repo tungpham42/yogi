@@ -4,6 +4,7 @@ import {
   HeartOutlined,
   OrderedListOutlined,
   SwapOutlined,
+  PlayCircleOutlined,
 } from "@ant-design/icons";
 import { Pose } from "../types";
 
@@ -17,6 +18,17 @@ export default function PoseDetailModal({
   pose?: Pose | null;
 }) {
   if (!pose) return null;
+
+  // Hàm extract YouTube ID từ URL
+  const getYouTubeId = (url: string) => {
+    const regExp =
+      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    const match = url.match(regExp);
+    return match && match[7].length === 11 ? match[7] : null;
+  };
+
+  const youtubeId = pose.youtube_link ? getYouTubeId(pose.youtube_link) : null;
+
   return (
     <Modal
       title={`${pose.english_name} — ${pose.sanskrit_name}`}
@@ -38,6 +50,42 @@ export default function PoseDetailModal({
           }}
         />
       )}
+
+      {/* YouTube Embed */}
+      {youtubeId && (
+        <>
+          <Divider>
+            <PlayCircleOutlined style={{ marginRight: 8, color: "#ff4d4f" }} />
+            Video Hướng Dẫn
+          </Divider>
+          <div
+            style={{
+              position: "relative",
+              paddingBottom: "56.25%" /* 16:9 aspect ratio */,
+              height: 0,
+              overflow: "hidden",
+              marginBottom: 16,
+            }}
+          >
+            <iframe
+              src={`https://www.youtube.com/embed/${youtubeId}`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                border: "none",
+              }}
+            />
+          </div>
+        </>
+      )}
+
       <Divider />
       <Typography.Paragraph>
         <InfoCircleOutlined style={{ marginRight: 8, color: "#1890ff" }} />
