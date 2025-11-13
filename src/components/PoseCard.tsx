@@ -14,6 +14,17 @@ export default function PoseCard({
   return (
     <Card
       hoverable
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+      bodyStyle={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        padding: "16px",
+      }}
       cover={
         pose.image ? (
           <img
@@ -29,29 +40,31 @@ export default function PoseCard({
         <AppstoreOutlined key="category" />,
       ]}
     >
-      <Meta
-        title={`${pose.english_name} — ${pose.sanskrit_name}`}
-        description={
-          <div style={{ marginTop: 8 }}>
-            <div style={{ minHeight: 40 }}>
-              {pose.description?.slice(0, 120)}
-              {pose.description && pose.description.length > 120 ? "…" : ""}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        <Meta
+          title={`${pose.english_name} — ${pose.sanskrit_name}`}
+          description={
+            <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+              <div style={{ flex: 1, minHeight: 40 }}>
+                {pose.description?.slice(0, 120)}
+                {pose.description && pose.description.length > 120 ? "…" : ""}
+              </div>
+              <div style={{ marginTop: "auto", paddingTop: 8 }}>
+                {pose.category && (
+                  <Tag icon={<AppstoreOutlined />} color="blue">
+                    {pose.category}
+                  </Tag>
+                )}
+                {pose.time && (
+                  <Tag icon={<ClockCircleOutlined />} color="green">
+                    {pose.time}
+                  </Tag>
+                )}
+              </div>
             </div>
-            <div style={{ marginTop: 8 }}>
-              {pose.category && (
-                <Tag icon={<AppstoreOutlined />} color="blue">
-                  {pose.category}
-                </Tag>
-              )}
-              {pose.time && (
-                <Tag icon={<ClockCircleOutlined />} color="green">
-                  {pose.time}
-                </Tag>
-              )}
-            </div>
-          </div>
-        }
-      />
+          }
+        />
+      </div>
     </Card>
   );
 }
